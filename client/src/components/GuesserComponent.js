@@ -11,7 +11,7 @@ class GuesserComponent extends Component {
     return (
       <div>
       <h1>Guesser</h1>
-      <ResponseFormComponent questionKeyUp={this.props.questionKeyUp} onSubmit={this.props.onSubmit}/>
+      <ResponseFormComponent keyUp={this.props.keyUp} onSubmit={this.props.onSubmit}/>
       {this.props.qna}
       </div>
     )

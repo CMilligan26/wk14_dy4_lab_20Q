@@ -14,8 +14,8 @@ class ChooserComponent extends Component {
     return (
       <div>
       <h1>Chooser</h1>
-      <ResponseFormComponent celebKeyUp={this.props.celebKeyUp} onSubmit={this.props.celebSubmit}/>
-      <TFButtonComponent answerKeyUp={this.props.answerKeyUp} onSubmit={this.props.onSubmit}/>
+      <ResponseFormComponent keyUp={this.props.keyUp} onSubmit={this.props.celebSubmit}/>
+      <TFButtonComponent onSubmit={this.props.onSubmit}/>
       {this.props.qna}
       </div>
     )

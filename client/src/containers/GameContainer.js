@@ -16,22 +16,20 @@ class GameContainer extends React.Component {
       answer: null,
       celeb: null
     };
+    this.addQuestion = this.addQuestion.bind(this);
+    this.addAnswer = this.addAnswer.bind(this);
+
     this.socket = io('http://localhost:3001');
     this.socket.on('question', this.addQuestion);
     this.socket.on('answer', this.addAnswer);
 
     this.setCeleb = this.setCeleb.bind(this);
-    this.addQuestion = this.addQuestion.bind(this);
-    this.addAnswer = this.addAnswer.bind(this);
-
     this.celebKeyUp = this.celebKeyUp.bind(this);
     this.questionKeyUp = this.questionKeyUp.bind(this);
 
     this.submitQuestionForm = this.submitQuestionForm.bind(this);
     this.submitAnswerForm = this.submitAnswerForm.bind(this);
     this.submitCelebForm = this.submitCelebForm.bind(this);
-
-
   }
 
   selectPlayerType(playerType) {
