@@ -4,8 +4,10 @@ const TFButtonComponent = (props) => {
 
   return (
     <div>
-    <button value="true">T</button>
-    <button value="false">F</button>
+    <form onSubmit={props.onSubmit}>
+    <input type="submit" value="True"></input>
+    <input type="submit" value="False"></input>
+    </form>
     </div>
   )
 };

@@ -1,7 +1,8 @@
-import React from 'react'
-import GuesserComponent from '../components/GuesserComponent'
-import ChooserComponent from '../components/ChooserComponent'
+import React from 'react';
+import GuesserComponent from '../components/GuesserComponent';
+import ChooserComponent from '../components/ChooserComponent';
 import io from 'socket.io-client';
+import MessageComponent from '../components/MessageComponent';
 
 class GameContainer extends React.Component {
 
@@ -22,6 +23,15 @@ class GameContainer extends React.Component {
     this.setCeleb = this.setCeleb.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
+
+    this.celebKeyUp = this.celebKeyUp.bind(this);
+    this.questionKeyUp = this.questionKeyUp.bind(this);
+
+    this.submitQuestionForm = this.submitQuestionForm.bind(this);
+    this.submitAnswerForm = this.submitAnswerForm.bind(this);
+    this.submitCelebForm = this.submitCelebForm.bind(this);
+
+
   }
 
   selectPlayerType(playerType) {
@@ -60,22 +70,63 @@ class GameContainer extends React.Component {
     });
   }
 
-  answerKeyUp(event) {
-    this.setState({
-      answer: event.target.value
-    });
+  submitQuestionForm(event){
+    event.preventDefault()
+
+    if (this.state.question){
+      const newQuestion = {question: this.state.question};
+
+      this.socket.emit('question', newQuestion);
+    }
+  }
+
+  submitAnswerForm(event){
+    event.preventDefault()
+
+    if (this.state.answer){
+      const newAnswer = {answer: this.state.answer};
+
+      this.socket.emit('answer', newAnswer);
+    }
+  }
+
+  submitCelebForm(event){
+    event.preventDefault()
+
+    if (this.state.celeb){
+      const newCeleb = {celeb: this.state.celeb};
+
+      this.socket.emit('celeb', newCeleb);
+    }
   }
 
   render() {
 
+    const questions = this.state.questions.map((question, index) => {
+      return <MessageComponent key={index} text="Question:" message={question.question}/>
+    })
+
+    const answers = this.state.answers.map((answer, index) => {
+      return <MessageComponent key={index} text="Answer:" message={answer.answer}/>
+    })
+
+    const questionsAndAnswers = [];
+
+    for (var i = 0; i < questions.length; i++) {
+      questionsAndAnswers.push(questions[i])
+      if (answers[i] !== null) {
+      questionsAndAnswers.push(answers[i])
+    }
+    }
+
     switch(this.state.playerType) {
       case "PLAYERTYPE_GUESSER":
       return (
-        <GuesserComponent questionKeyUp={this.questionKeyUp}/>
+        <GuesserComponent keyUp={this.questionKeyUp} qna={questionsAndAnswers} onSubmit={this.submitQuestionForm}/>
       )
       case "PLAYERTYPE_CHOOSER":
       return (
-        <ChooserComponent celebKeyUp={this.celebKeyUp} answerKeyUp={this.answerKeyUp}/>
+        <ChooserComponent keyUp={this.celebKeyUp} qna={questionsAndAnswers} onSubmit={this.submitAnswerForm} celebSubmit={this.submitCelebForm}/>
       )
       default:
       return (

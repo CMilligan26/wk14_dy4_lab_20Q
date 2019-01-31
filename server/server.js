@@ -10,6 +10,9 @@ io.on('connection', (socket) => {
   socket.on('answer', (answer) => {
     io.sockets.emit('answer', answer);
   })
+  socket.on('celeb', (celeb) => {
+    io.sockets.emit('celeb', celeb);
+  })
 })
 
 app.get('/', function (req, res) {
